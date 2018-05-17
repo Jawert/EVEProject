@@ -1,0 +1,14 @@
+---
+title: "EVE Project"
+author: "Jacob Wert"
+date: "May 17, 2018"
+output: html_document
+---
+```{r}
+library(tidyverse)
+library(tidyr)
+
+CAHFSData <- read.csv("/home/ubuntu/EVEProject/Data.csv")
+colnames(CAHFSData) <- c("Pathogen", "Date", "Species", "County", "Age", "Tissue")
+```
+
