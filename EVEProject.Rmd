@@ -21,3 +21,8 @@ Bovine <- subset(CAHFSData, Species == 'Bovine')
 #Subset the original data by the most prevelant species.
 ```
 
+```{r}
+TurkeyPositiveViruses <- subset(TurkeyPositive, Pathogen == "Positive Adenovirus" | Pathogen == "Positive Birnavirus" | Pathogen == "Positive Reovirus" | Pathogen == "Positive Rotavirus")
+#Subset Turkey data to just have the positive samples for Adenovirus, Birnavirus, Reovirus and Reovirus
+```
+
