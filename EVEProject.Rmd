@@ -10,5 +10,14 @@ library(tidyr)
 
 CAHFSData <- read.csv("/home/ubuntu/EVEProject/Data.csv")
 colnames(CAHFSData) <- c("Pathogen", "Date", "Species", "County", "Age", "Tissue")
+
+#Import the data set and asssign column names to the data set.
+```
+
+```{r}
+Turkey <- subset(CAHFSData, Species == 'Turkey')
+Chicken <- subset(CAHFSData, Species == 'Chicken')
+Bovine <- subset(CAHFSData, Species == 'Bovine')
+#Subset the original data by the most prevelant species.
 ```
 
