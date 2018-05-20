@@ -22,7 +22,18 @@ Bovine <- subset(CAHFSData, Species == 'Bovine')
 ```
 
 ```{r}
+TurkeyPositive <- subset(Turkey, Pathogen != "Negative")
+```
+
+
+```{r}
 TurkeyPositiveViruses <- subset(TurkeyPositive, Pathogen == "Positive Adenovirus" | Pathogen == "Positive Birnavirus" | Pathogen == "Positive Reovirus" | Pathogen == "Positive Rotavirus")
 #Subset Turkey data to just have the positive samples for Adenovirus, Birnavirus, Reovirus and Reovirus
+```
+
+```{r}
+TurkeyPositiveViruses %>% ggplot(aes(x = Age, y = County, color = Pathogen)) + 
+ geom_point()
+#Check the virus subset for which county the virus is most common in
 ```
 
