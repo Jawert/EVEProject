@@ -4,30 +4,33 @@ author: "Jacob Wert"
 date: "May 17, 2018"
 output: html_document
 ---
+#disease vs animal species/kind frequency
+
 ```{r}
 library(tidyverse)
 library(tidyr)
 
 CAHFSData <- read.csv("/home/ubuntu/EVEProject/Data.csv")
 colnames(CAHFSData) <- c("Pathogen", "Date", "Species", "County", "Age", "Tissue")
+CAHFSData <- mutate_all(CAHFSData, funs(toupper))
 
 #Import the data set and asssign column names to the data set.
 ```
 
 ```{r}
-Turkey <- subset(CAHFSData, Species == 'Turkey')
-Chicken <- subset(CAHFSData, Species == 'Chicken')
-Bovine <- subset(CAHFSData, Species == 'Bovine')
+Turkey <- subset(CAHFSData, Species == 'TURKEY')
+Chicken <- subset(CAHFSData, Species == 'CHICKEN')
+Bovine <- subset(CAHFSData, Species == 'BOVINE')
 #Subset the original data by the most prevelant species.
 ```
 
 ```{r}
-TurkeyPositive <- subset(Turkey, Pathogen != "Negative")
+TurkeyPositive <- subset(Turkey, Pathogen != "NEGATIVE")
 ```
 
 
 ```{r}
-TurkeyPositiveViruses <- subset(TurkeyPositive, Pathogen == "Positive Adenovirus" | Pathogen == "Positive Birnavirus" | Pathogen == "Positive Reovirus" | Pathogen == "Positive Rotavirus")
+# TurkeyPositiveViruses <- subset(TurkeyPositive, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
 #Subset Turkey data to just have the positive samples for Adenovirus, Birnavirus, Reovirus and Reovirus
 ```
 
@@ -35,5 +38,33 @@ TurkeyPositiveViruses <- subset(TurkeyPositive, Pathogen == "Positive Adenovirus
 TurkeyPositiveViruses %>% ggplot(aes(x = Age, y = County, color = Pathogen)) + 
  geom_point()
 #Check the virus subset for which county the virus is most common in
+
+TurkeyPositiveViruses %>% ggplot(aes(x = Pathogen)) + 
+  stat_count()
+#Histogram of frequency of confirmed cases of Adeno, Birna, Reo and Rotavirus
+
+```
+
+```{r}
+TurkeyPositiveFresno <- subset(TurkeyPositive, County == "FRESNO")
+TurkeyPositiveFresno %>% ggplot(aes(x = Pathogen, y = Tissue)) + 
+ geom_point() +
+ theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Rotates x-axis element text for easier reading
+#Checking Fresno samples for where the virus is most prevelant
+```
+
+```{r}
+CAHFSPositiveVirus <- subset(CAHFSData, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
+#Subset CAHFS data set to only include the data positive for Adeno, Birna, Reo and Rotavirus
+```
+
+```{r}
+Counties <- table(CAHFSData$County)
+Counties
+Species <- table(CAHFSData$Species)
+Species
+Pathogens <- table(CAHFSData$Pathogen)
+Pathogens
+#Count the frequency of the counties
 ```
 
