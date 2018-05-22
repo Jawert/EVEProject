@@ -18,6 +18,22 @@ CAHFSData <- mutate_all(CAHFSData, funs(toupper))
 ```
 
 ```{r}
+PositiveViruses <- subset(CAHFSData, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE CALICIVIRUS" | Pathogen == "POSITIVE CORONAVIRUS" | Pathogen == "POSITIVE ENTEROVIRUS" | Pathogen == "POSITIVE HERPESVIRUS" | Pathogen == "POSITIVE PARAMYXOVIRUS" | Pathogen == "POSITIVE PARAPOXVIRUS" | Pathogen == "POSITIVE POX VIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
+#Subset the data to only include positive virus
+
+PositiveViruses %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen)) + 
+  stat_count() + 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
+MostCommonSpecies <- subset(PositiveViruses, Species == "BOVINE" | Species == "CHICKEN" | Species == "TURKEY")
+MostCommonSpecies %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen)) + 
+  stat_count() + 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+#Subset the data to the most common species, with a histogram of the data
+```
+
+
+```{r}
 Turkey <- subset(CAHFSData, Species == 'TURKEY')
 Chicken <- subset(CAHFSData, Species == 'CHICKEN')
 Bovine <- subset(CAHFSData, Species == 'BOVINE')
