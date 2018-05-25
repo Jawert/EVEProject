@@ -23,12 +23,16 @@ PositiveViruses <- subset(CAHFSData, Pathogen == "POSITIVE ADENOVIRUS" | Pathoge
 
 PositiveViruses %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen)) + 
   stat_count() + 
-  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  ylab("Number of Infections") +
+  ggtitle("All Positive Viruses")
 
 MostCommonSpecies <- subset(PositiveViruses, Species == "BOVINE" | Species == "CHICKEN" | Species == "TURKEY")
 MostCommonSpecies %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen)) + 
   stat_count() + 
-  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  ylab("Number of Infections") +
+  ggtitle("All Viruses from the Most Common Species")
 #Subset the data to the most common species, with a histogram of the data
 ```
 
@@ -46,17 +50,23 @@ TurkeyPositive <- subset(Turkey, Pathogen != "NEGATIVE")
 
 
 ```{r}
-# TurkeyPositiveViruses <- subset(TurkeyPositive, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
+TurkeyPositiveViruses <- subset(TurkeyPositive, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
 #Subset Turkey data to just have the positive samples for Adenovirus, Birnavirus, Reovirus and Reovirus
 ```
 
 ```{r}
-TurkeyPositiveViruses %>% ggplot(aes(x = Age, y = County, color = Pathogen)) + 
- geom_point()
+TurkeyPositiveViruses %>% ggplot(aes(x = County, color = Pathogen)) + 
+ geom_bar(aes(fill = Pathogen)) +
+ theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+ ylab("Number of Viruses By County")  
 #Check the virus subset for which county the virus is most common in
 
-TurkeyPositiveViruses %>% ggplot(aes(x = Pathogen)) + 
-  stat_count()
+TurkeyPositiveViruses %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen)) + 
+  stat_count() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylab("Number of Positive Infections") + 
+  xlab("Pathogen Name") +
+  ggtitle("Most Common Positives - Turkey") 
 #Histogram of frequency of confirmed cases of Adeno, Birna, Reo and Rotavirus
 
 ```
@@ -65,7 +75,9 @@ TurkeyPositiveViruses %>% ggplot(aes(x = Pathogen)) +
 TurkeyPositiveFresno <- subset(TurkeyPositive, County == "FRESNO")
 TurkeyPositiveFresno %>% ggplot(aes(x = Pathogen, y = Tissue)) + 
  geom_point() +
- theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Rotates x-axis element text for easier reading
+ theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+  
+  #Rotates x-axis element text for easier reading
 #Checking Fresno samples for where the virus is most prevelant
 ```
 
