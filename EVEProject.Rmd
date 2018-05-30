@@ -18,8 +18,32 @@ CAHFSData <- mutate_all(CAHFSData, funs(toupper))
 ```
 
 ```{r}
+CAHFSPositiveVirus <- subset(CAHFSData, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
+#Subset CAHFS data set to only include the data positive for Adeno, Birna, Reo and Rotavirus
+```
+
+```{r}
+Counties <- table(CAHFSData$County)
+Counties
+Species <- table(CAHFSData$Species)
+Species
+Pathogens <- table(CAHFSData$Pathogen)
+Pathogens
+#Count the frequency of the counties
+```
+
+```{r}
+NegativePositiveViruses <- subset(CAHFSData, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE CALICIVIRUS" | Pathogen == "POSITIVE CORONAVIRUS" | Pathogen == "POSITIVE ENTEROVIRUS" | Pathogen == "POSITIVE HERPESVIRUS" | Pathogen == "POSITIVE PARAMYXOVIRUS" | Pathogen == "POSITIVE PARAPOXVIRUS" | Pathogen == "POSITIVE POX VIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS" | Pathogen == "NEGATIVE")
+
 PositiveViruses <- subset(CAHFSData, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE CALICIVIRUS" | Pathogen == "POSITIVE CORONAVIRUS" | Pathogen == "POSITIVE ENTEROVIRUS" | Pathogen == "POSITIVE HERPESVIRUS" | Pathogen == "POSITIVE PARAMYXOVIRUS" | Pathogen == "POSITIVE PARAPOXVIRUS" | Pathogen == "POSITIVE POX VIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
 #Subset the data to only include positive virus
+
+NegativePositiveViruses %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen)) + 
+    geom_bar() + 
+    theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+    ylab("Number of Infections") +
+    ggtitle("All Positive Viruses and Negative Results") +
+    geom_text(stat='count', aes(label=..count..), vjust = -0.25, color = "Black")
 
 PositiveViruses %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen)) + 
   geom_bar() + 
@@ -39,7 +63,6 @@ MostCommonSpecies %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen
 #Subset the data to the most common species, with a histogram of the data
 ```
 
-
 ```{r}
 Turkey <- subset(CAHFSData, Species == 'TURKEY')
 Chicken <- subset(CAHFSData, Species == 'CHICKEN')
@@ -49,9 +72,7 @@ Bovine <- subset(CAHFSData, Species == 'BOVINE')
 
 ```{r}
 TurkeyPositive <- subset(Turkey, Pathogen != "NEGATIVE")
-```
 
-```{r}
 TurkeyPositiveViruses <- subset(TurkeyPositive, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
 #Subset Turkey data to just have the positive samples for Adenovirus, Birnavirus, Reovirus and Reovirus
 ```
@@ -87,17 +108,51 @@ TurkeyPositiveViruses %>% ggplot(aes(x = Pathogen, y = Tissue)) +
 ```
 
 ```{r}
-CAHFSPositiveVirus <- subset(CAHFSData, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
-#Subset CAHFS data set to only include the data positive for Adeno, Birna, Reo and Rotavirus
+ChickenPositive <- subset(Chicken, Pathogen != "NEGATIVE")
+
+ChickenPositiveViruses <- subset(ChickenPositive, Pathogen == "POSITIVE ADENOVIRUS" | Pathogen == "POSITIVE BIRNAVIRUS" | Pathogen == "POSITIVE REOVIRUS" | Pathogen == "POSITIVE ROTAVIRUS" | Pathogen == "POSITIVE CALICIVIRUS" | Pathogen == "POSITIVE HERPESVIRUS" | Pathogen == "POSITIVE POX VIRUS")
+#Subset Chicken data to just have the positive viruses
 ```
 
 ```{r}
-Counties <- table(CAHFSData$County)
-Counties
-Species <- table(CAHFSData$Species)
-Species
-Pathogens <- table(CAHFSData$Pathogen)
-Pathogens
-#Count the frequency of the counties
+ChickenPositiveViruses %>% ggplot(aes(x = County, color = Pathogen)) + 
+  geom_bar(aes(fill = Pathogen)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylab("Number of Viruses By County") +
+  geom_text(stat='count', aes(label=..count..), vjust = -0.25, color = "Black") +
+  ggtitle("Chicken Viruses by County")
+#Check the virus subset for which county the virus is most common in
+  
+ChickenPositiveViruses %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen)) + 
+    stat_count() + 
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    ylab("Number of Positive Infections") + 
+    xlab("Pathogen Name") +
+    ggtitle("Most Common Positives - Chicken") +
+    geom_text(stat='count', aes(label=..count..), vjust = -0.25, color = "Black")
+#Histogram of frequency of confirmed cases of Adeno, Birna, Reo and Rotavirus
 ```
 
+```{r}
+BovinePositive <- subset(Bovine, Pathogen != "NEGATIVE")
+BovinePositiveViruses <- subset(BovinePositive, Pathogen == "POSITIVE CORONAVIRUS" | Pathogen == "POSITIVE PARAPOXVIRUS" | Pathogen == "POSITIVE POX VIRUS" | Pathogen == "POSITIVE ROTAVIRUS")
+```
+
+```{r}
+BovinePositiveViruses %>% ggplot(aes(x = County, color = Pathogen)) + 
+  geom_bar(aes(fill = Pathogen)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylab("Number of Viruses By County") +
+  geom_text(stat='count', aes(label=..count..), vjust = -0.25, color = "Black") +
+  ggtitle("Bovine Viruses by County")
+#Check the virus subset for which county the virus is most common in
+  
+BovinePositiveViruses %>% ggplot(aes(x = Pathogen, color = Pathogen, fill = Pathogen)) + 
+    stat_count() + 
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    ylab("Number of Positive Infections") + 
+    xlab("Pathogen Name") +
+    ggtitle("Most Common Positives - Bovine") +
+    geom_text(stat='count', aes(label=..count..), vjust = -0.25, color = "Black")
+#Histogram of frequency of confirmed cases
+```
